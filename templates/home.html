@@ -1,18 +1,26 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
+{% load static %}
+
+{% block stylesheet %}
+  <link rel="stylesheet" href="{% static 'css/accounts/home.css' %}">
+{% endblock %}
 
 {% block content %}
-  {% if user.is_authenticated %}
-    <p>Hi {{ user.username }}!</p>
-    {{ perms.foo }}
-    <p><a href="{% url 'password_change' %}">Password Change</a></p>
-    <form action="{% url 'logout' %}" method="post">
-      {% csrf_token %}
-      <button type="submit">Log Out</button>
-    </form>
-  {% else %}
-    <p>You are not logged in</p>
-    <p><a href="{% url 'password_reset' %}">Password Reset</a></p>
-    <p><a href="{% url 'login' %}">Log In</a></p>
-    <p><a href="{% url 'signup' %}">Sign Up</a></p>
+  <section class="intro" {% if user.is_authenticated %}style="height: 100%;"{% endif %}>
+    <div class="container">
+      <h1>Welcome to MyBlog</h1>
+      <p>MyBlog is a platform where users can write blogs, share their thoughts, and engage with others through comments.
+        Whether you are an aspiring writer or an avid reader, you can explore a variety of blogs and leave comments to
+        join the conversation.</p>
+    </div>
+  </section>
+
+  {% if not user.is_authenticated %}
+    <section class="footer">
+      <div class="container">
+        <h2>Join Us Today</h2>
+        <p>Ready to share your thoughts or read insightful blogs? Join MyBlog now!</p>
+      </div>
+    </section>
   {% endif %}
 {% endblock %}
