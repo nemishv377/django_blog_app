@@ -19,7 +19,7 @@ class AuthorManager(BaseUserManager):
     return self.create_user(email, username, password, **extra_fields)
 
 class Author(AbstractUser):
-  GENDER_CHOICES = [('','Select Gender'),('Male', 'Male'), ('Female', 'Female'), ('Other', 'Other')]
+  GENDER_CHOICES = [('Male', 'Male'), ('Female', 'Female'), ('Other', 'Other')]
   
   email = models.EmailField(unique=True, null=False)  
   first_name = models.CharField(max_length=30, null=False)  

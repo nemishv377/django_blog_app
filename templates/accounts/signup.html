@@ -3,10 +3,29 @@
 {% block title %}Sign Up{% endblock %}
 
 {% block content %}
-<h2>Sign up</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form }}
-  <button type="submit">Sign Up</button>
-</form>
+  <h2>Sign up</h2>
+  <table class="form-group">
+    <form method="post" novalidate>
+      {% csrf_token %}
+      {% for field in form %}
+      <tr>
+        <td>{{ field.label_tag }}</td>
+        <td> {{ field }}</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>
+          {% if field.errors %}
+            <div class="error">{{ field.errors.0 }}</div>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+      <tr>
+        <td style="text-align: center;" colspan="2">
+          <button type="submit">Register</button>
+        </td>
+      </tr>
+    </form>
+  </table>
 {% endblock %}
