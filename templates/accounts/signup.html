@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block stylesheet %}
+  <link rel="stylesheet" href="{% static 'css/accounts/signup.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div class="signup_page">
+    <form method="post" class="signup-form" novalidate>
+      <h2 class="form-heading">Sign up</h2>
+      {% csrf_token %}
+      <table class="form-group">
+        {% for field in form %}
+          <tr>
+            <td class="form-label">{{ field.label_tag }}</td>
+            <td class="form-input">
+              {{ field }}
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+              {% if field.errors %}
+              <div class="error-message">{{ field.errors.0 }}</div>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+        <tr></tr>
+        <tr>
+          <td style="text-align: center;" colspan="2">
+            <button type="submit" class="submit-button">Register</button>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+{% endblock %}
