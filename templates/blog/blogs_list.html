@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/blog/blogs_list.css' %}" />
+{% endblock %}
+
+{% block content %}
+<section>
+  <div id="blogs">
+    {% for blog in page_obj %}
+    <div class="blog_details">
+      <div class="left">
+        <a href="{% url 'blog_detail' blog.id %}">
+          <h1>{{ blog.title|capfirst }}</h1>
+        </a>
+        <br />
+        <img src="{{ blog.image.url }}" alt="Image for {{ blog.title }}" width="300" height="300" /><br />
+        {{ blog.content }}
+      </div>
+      <div class="right">
+        <p>{{ blog.author.get_full_name|capfirst }}</p>
+        <p>Posted: {{ blog.time_display }}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="pagination">
+    <span class="step-links">
+      {% if page_obj.has_previous %}
+      <a href="?page=1">&laquo; first</a>
+      <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+      {% endif %}
+
+      <span class="current">
+        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+      </span>
+
+      {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}">next</a>
+      <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+      {% endif %}
+    </span>
+  </div>
+</section>
+{% endblock %}

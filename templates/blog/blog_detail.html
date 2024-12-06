@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/blog/blog_details.css' %}" />
+{% endblock %}
+
+{% block content %}
+<section>
+  <table>
+    <tr>
+      <th>Author</th>
+      <td>:</td>
+      <td>{{ blog.author.get_full_name|capfirst }}</td>
+    </tr>
+    <tr>
+      <th>Posted</th>
+      <td>:</td>
+      <td>{{ blog.time_display }}</td>
+    </tr>
+    <tr style="border-top: 1px solid #ddd; height: 20px;"></tr>
+    <tr>
+      <th>Title</th>
+      <td>:</td>
+      <td>{{ blog.title }}</td>
+    </tr>
+    <tr>
+      <th>Content</th>
+      <td>:</td>
+      <td>{{ blog.content }}</td>
+    </tr>
+    <tr>
+      <th>Image</th>
+      <td>:</td>
+      <td><img src="{{ blog.image.url }}" alt="Image for {{ blog.title }}" width="300" height="300" /></td>
+    </tr>
+    <tr style="height: 20px;"></tr>
+    <tr>
+      <th>Description</th>
+      <td>:</td>
+      <td>
+        <p>
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusantium, unde
+          dignissimos sit sed autem distinctio ad laboriosam id commodi laborum
+          doloremque atque dolor est. Repellendus eligendi distinctio pariatur,
+          inventore ex culpa quasi vitae reprehenderit amet, fugiat accusantium quo
+          aliquid ipsum cupiditate ab. Sit quos rem ducimus! Quis accusamus,
+          repudiandae corporis sequi distinctio in temporibus ullam consectetur libero
+          fugit beatae quod esse modi eius ab ipsum nobis dolorem porro eveniet
+          dolores doloremque unde impedit alias? Eligendi, dolorem amet. Recusandae,
+          voluptate illo iste facere nemo fuga alias corrupti nisi aliquam placeat ab
+          tempora. Voluptates animi vero atque neque, dicta expedita voluptatem
+          molestias ut? Tempore quod dicta eum delectus autem adipisci quibusdam
+          commodi sunt, accusamus blanditiis repellat doloribus cumque nam at
+          praesentium nisi officia, voluptatibus aperiam reprehenderit, exercitationem
+          quisquam fuga consequatur obcaecati! Error porro quisquam ea obcaecati
+          voluptate, beatae doloremque nihil consequuntur tenetur molestiae
+          repudiandae ipsam consectetur nesciunt a quae aliquid qui, perferendis
+          consequatur illum nobis! Exercitationem accusamus reiciendis maxime eum
+          error. Amet voluptatibus consectetur asperiores, harum odio ut iure. Debitis
+          dolores aut nesciunt atque, aliquam praesentium officia accusamus autem
+          minus saepe, nobis commodi, dolorum magni fugiat esse doloremque et possimus
+          doloribus necessitatibus aperiam quam ea nam non! Voluptatibus minima ex
+          laboriosam nesciunt earum facilis minus cupiditate, soluta unde ad commodi
+          dignissimos obcaecati! Cumque repellat aliquid omnis pariatur optio quos cum
+          quidem sint. Dolor odit, alias voluptatibus odio sequi, dolorem
+          reprehenderit maxime eius voluptates consequatur culpa laborum error libero
+          nostrum aut ratione quo dolores. Numquam, consectetur vero eius voluptatem
+          soluta quasi dolore nisi sunt maiores animi id voluptate ut totam assumenda
+          tenetur placeat delectus reiciendis laboriosam cupiditate recusandae nostrum
+          quas asperiores ratione? Doloremque odit fuga mollitia. Impedit debitis
+          facere tenetur modi, repellendus voluptatum quia sint inventore autem labore
+          excepturi amet ullam quos temporibus minima adipisci nam laboriosam, magni
+          nobis odit alias animi atque?
+        </p>
+      </td>
+
+    </tr>
+
+
+  </table>
+</section>
+
+{% endblock %}
