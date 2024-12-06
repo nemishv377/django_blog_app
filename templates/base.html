@@ -17,7 +17,7 @@
       <div>
         {% if user.is_authenticated %}
           <div>
-            <h2>{{ user.username }}</h2>
+            <h1>{{ user.username }}</h1>
             Joined on: {{ user.date_joined|date:"Y-m-d" }}
             <br>
             <a href="{% url 'password_change' %}" class="password_change">Password Change</a>
