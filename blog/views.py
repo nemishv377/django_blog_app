@@ -1,9 +1,30 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Blog
 from accounts.models import Author
 from django.core.paginator import Paginator
+from .forms import BlogForm
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+@login_required
+def new_blog(request):
+  if request.method == 'POST':
+    form = BlogForm(request.POST, request.FILES)
+    print(request.POST.get('title'), request.POST.get('content'), request.POST.get('author'), request.POST.get('image'), form.is_valid())
+    print("POST data:", request.POST) 
+    print("FILES data:", request.FILES)
+    print("Form is valid:", form.is_valid())
+    if form.is_valid():
+      blog = form.save(commit=False)
+      blog.author = request.user
+      blog.save() 
+      return redirect('blogs_list')
+    else:
+      return render(request, 'blog/new_blog.html', {'form': form})
+  else:
+    form = BlogForm()
+
+  return render(request, 'blog/new_blog.html', {'form': form})
 
 def blogs_list(request):
   blogs = Blog.objects.all().order_by('-created_at')

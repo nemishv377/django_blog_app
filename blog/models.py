@@ -2,7 +2,8 @@ from django.db import models
 from accounts.models import Author
 from django.utils import timezone
 from datetime import timedelta
-
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 class Blog(models.Model):
@@ -33,3 +34,14 @@ class Blog(models.Model):
     else:
       days = time_diff.days
       return f'{days} day{"s" if days != 1 else ""} ago'
+    
+  def clean(self):
+    """Validate the image file extension."""
+    if self.image:
+      valid_extensions = ['jpg', 'jpeg', 'png']
+      file_extension = self.image.name.split('.')[-1].lower()
+      if file_extension not in valid_extensions:
+        raise ValidationError(_('Unsupported file extension. Use JPG, JPEG, or PNG.'))
+      if self.image.size > 10 * 1024 * 1024:
+        raise ValidationError(_('The image is too large. Please upload an image smaller than 10MB.'))
+    super().clean()
