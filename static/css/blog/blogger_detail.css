@@ -1,0 +1,68 @@
+section {
+  margin: 10px 10px 0px 30px;
+  display: flex;
+  flex-direction: column;
+  font-size: 20px;
+  padding: 10px;
+}
+
+hr{
+  margin: 10px 0px 0px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 23px;
+  margin-top: 20px;
+}
+
+tr {
+  height: 50px;
+}
+
+th,
+td {
+  text-align: left;
+  vertical-align: top;
+}
+
+th:nth-child(1),
+td:nth-child(1) {
+  width: 150px;
+}
+
+th:nth-child(2),
+td:nth-child(2) {
+  width: 30px;
+}
+
+#author_info{
+  display: flex;
+}
+
+.blogs{
+  display: flex;
+  flex-direction: column;
+  font-size: 20px;
+  margin-top: 10px;
+  padding: 10px;
+  background-color: rgb(249, 249, 247);
+}
+
+.blogs p{
+  margin: 5px;
+}
+
+h3 {
+  font-size: 1.5em;
+  margin-top: 20px;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
