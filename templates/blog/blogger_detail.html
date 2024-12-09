@@ -61,7 +61,7 @@
       <p>{{ blog.content }}</a></p>
       <p>Posted : {{ blog.time_display }}</p>
     </div>
-    {% if user.id == blog.author.id and "my_profile" in request.path %}
+    {% if user.id == blog.author.id and "profile" in request.path %}
     <div class="actions">
       <form method="POST" action="{% url 'delete_blog' blog.id %}">
         {% csrf_token %}
