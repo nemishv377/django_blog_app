@@ -32,13 +32,13 @@ def delete_blog(request, id):
   blog = get_object_or_404(Blog, id=id)
 
   if blog.author != request.user:
-    return redirect('my_profile')  # Or an error page if not the author
+    return redirect('profile')  # Or an error page if not the author
 
   if request.method == 'POST':
     blog.delete()
-    return redirect('my_profile')
+    return redirect('profile')
 
-  return redirect('my_profile')
+  return redirect('profile')
 
 
 def blogs_list(request):
