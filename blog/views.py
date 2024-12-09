@@ -26,6 +26,18 @@ def new_blog(request):
 
   return render(request, 'blog/new_blog.html', {'form': form})
 
+@login_required
+def delete_blog(request, id):
+  blog = get_object_or_404(Blog, id=id)
+  if blog.author != request.user:
+    return redirect('my_profile')  # Or an error page if not the author
+
+  if request.method == 'POST':
+    blog.delete()
+    return redirect('my_profile')
+
+  return redirect('my_profile')
+
 def blogs_list(request):
   blogs = Blog.objects.all().order_by('-created_at')
   paginator = Paginator(blogs, 5)

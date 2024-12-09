@@ -19,7 +19,7 @@
         {% if user.is_authenticated %}
         <div>
           <h1>{{ user.username }}</h1>
-          Joined on: {{ user.date_joined|date:"Y-m-d" }}
+          Joined on: {{ user.date_joined|date:"d-m-Y" }}
           <br>
           <a href="{% url 'password_change' %}" class="password_change">Change Password</a>
         </div>
@@ -38,6 +38,9 @@
         <li><a href="/blog/">Home</a></li>
         <li><a href="{% url 'blogs_list' %}">Blogs</a></li>
         <li><a href="{% url 'bloggers_list' %}">Bloggers</a></li>
+        {% if user.is_authenticated %}
+        <li><a href="{% url 'my_profile' %}">My Profile</a></li>
+        {% endif %}
         {% if user.is_authenticated %}
         <li style="margin-top: auto;">
           <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Log Out</a>
