@@ -7,9 +7,11 @@ def deactivate_users(modeladmin, request, queryset):
     queryset.update(is_active=False)
     modeladmin.message_user(request, _("Selected users have been deactivated."))
 
+
 def activate_users(modeladmin, request, queryset):
     queryset.update(is_active=True)
     modeladmin.message_user(request, _("Selected users have been activated."))
+
 
 def make_superuser(modeladmin, request, queryset):
     queryset.update(is_staff=True, is_superuser=True)
@@ -48,5 +50,6 @@ class AuthorAdmin(UserAdmin):
     )
     
     actions = [activate_users, deactivate_users, make_superuser]
+
 
 admin.site.register(Author, AuthorAdmin)

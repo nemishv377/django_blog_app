@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'accounts',
+    'blog',
 ]
 
 MIDDLEWARE = [
@@ -136,3 +137,9 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Define the directory where uploaded files will be stored
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Store files in the 'media/' folder at the project root
+
+# Define the URL path to serve uploaded files (useful for development)
+MEDIA_URL = '/media/'  # Files will be accessible via URL like /media/blog_images/my_image.jpg

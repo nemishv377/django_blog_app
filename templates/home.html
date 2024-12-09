@@ -2,25 +2,32 @@
 {% load static %}
 
 {% block stylesheet %}
-  <link rel="stylesheet" href="{% static 'css/accounts/home.css' %}">
+<link rel="stylesheet" href="{% static 'css/accounts/home.css' %}">
 {% endblock %}
 
 {% block content %}
-  <section class="intro" {% if user.is_authenticated %}style="height: 100%;"{% endif %}>
-    <div class="container">
-      <h1>Welcome to MyBlog</h1>
-      <p>MyBlog is a platform where users can write blogs, share their thoughts, and engage with others through comments.
-        Whether you are an aspiring writer or an avid reader, you can explore a variety of blogs and leave comments to
-        join the conversation.</p>
+<section class="intro" {% if user.is_authenticated %}style="height: 100%;" {% endif %}>
+  <div class="container">
+    <h1>Welcome to MyBlog</h1>
+    <p>MyBlog is a platform where users can write blogs, share their thoughts, and engage with others through comments.
+      Whether you are an aspiring writer or an avid reader, you can explore a variety of blogs and leave comments to
+      join the conversation.</p>
+  </div>
+  {% if user.is_authenticated %}
+  <a href={% url 'new_blog' %}>
+    <div class="new_blog">
+      Add Blog
     </div>
-  </section>
-
-  {% if not user.is_authenticated %}
-    <section class="footer">
-      <div class="container">
-        <h2>Join Us Today</h2>
-        <p>Ready to share your thoughts or read insightful blogs? Join MyBlog now!</p>
-      </div>
-    </section>
+  </a>
   {% endif %}
+</section>
+
+{% if not user.is_authenticated %}
+<section class="footer">
+  <div class="container">
+    <h2>Join Us Today</h2>
+    <p>Ready to share your thoughts or read insightful blogs? Join MyBlog now!</p>
+  </div>
+</section>
+{% endif %}
 {% endblock %}
