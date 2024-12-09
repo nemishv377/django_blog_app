@@ -1,13 +1,13 @@
-/* Reset some default styles */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  overflow: hidden ;
 }
 
 body {
   font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
+  background-color: white;
 }
 
 .navbar {
@@ -16,7 +16,7 @@ body {
   background-color: #634949;
   color: #fff;
   padding: 10px 0;
-  position: sticky;
+  position: fixed;
   top: 0;
   z-index: 1000;
   display: flex;
@@ -36,8 +36,12 @@ body {
 .logo a {
   color: #fff;
   text-decoration: none;
-  font-size: 24px;
+  font-size: 35px;
   font-weight: bold;
+}
+
+.logo + div{
+  font-size: 20px;
 }
 
 .password_change{
@@ -53,8 +57,8 @@ body {
   width: 13vw;
   background-color: #333;
   padding-top: 20px;
-  position: sticky;
-  top: 0;
+  position: fixed;
+  top: 13vh;
   color: white;
   border-right: 2px solid;
 }
@@ -62,7 +66,7 @@ body {
 #sidebar a {
   padding: 8px 16px;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 25px;
   color: white;
   display: block;
   margin: 10px 0;
@@ -105,9 +109,13 @@ body {
 }
 
 #content{
+  position: fixed;
+  top: 13vh;
+  margin-left: 275px;
+  width: calc(100% - 275px);
   height: 87vh;
-  width: 87vw;
-  background-color: rgb(247, 247, 241);
+  overflow-y: auto;
+  border: 1px solid white; 
 }
 
 .content h1 {

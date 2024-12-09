@@ -1,0 +1,38 @@
+section {
+  margin: 10px 10px 0px 30px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  font-size: 20px;
+  padding: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 23px;
+}
+
+tr {
+  height: 50px;
+}
+
+th,
+td {
+  text-align: left;
+  vertical-align: top;
+}
+
+th:nth-child(1),
+td:nth-child(1) {
+  width: 150px;
+}
+
+th:nth-child(2),
+td:nth-child(2) {
+  width: 30px;
+}
+
+p{
+  text-align: justify;
+}
