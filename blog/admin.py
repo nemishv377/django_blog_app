@@ -6,7 +6,7 @@ from django.utils.html import format_html
 
 class CommentInline(admin.TabularInline):
   model = Comment
-  extra = 0
+  extra = 1
   fields = ('author', 'message', 'created_at',)
   readonly_fields = ('created_at',)
 
@@ -32,10 +32,10 @@ class CommentAdmin(admin.ModelAdmin):
   def short_message(self, obj):
 
     if len(obj.message) > 20:
-      return format_html('<span title="{}">{}...</span>', obj.message, obj.message[:20])
+      return format_html('<span title="{}">{}...</span>', obj.message, obj.message[:75])
 
     else:
-      return format_html('<span title="{}">{}</span>', obj.message, obj.message[:20])  
+      return format_html('<span title="{}">{}</span>', obj.message, obj.message[:75])  
 
 
 admin.site.register(Blog, BlogAdmin)
