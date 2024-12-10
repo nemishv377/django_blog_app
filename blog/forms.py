@@ -1,5 +1,5 @@
 from django import forms
-from .models import Blog
+from .models import Blog, Comment
 from django.core.exceptions import ValidationError
 
 class BlogForm(forms.ModelForm):
@@ -68,3 +68,18 @@ class BlogForm(forms.ModelForm):
         raise ValidationError('The image is too large. Please upload an image smaller than 10MB.')
 
     return image
+  
+  
+class CommentForm(forms.ModelForm):
+
+  message = forms.CharField(
+    max_length=200,
+    required=True,
+    error_messages={'required': "Message can't be empty"},
+    widget=forms.Textarea(attrs={'placeholder': 'Add your comment...'})
+  )
+
+
+  class Meta:
+    model = Comment
+    fields = ['message']
