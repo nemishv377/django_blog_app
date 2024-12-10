@@ -5,6 +5,7 @@ from django.core.paginator import Paginator
 from .forms import BlogForm
 from .forms import CommentForm
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 # Create your views here.
 @login_required
@@ -17,9 +18,11 @@ def new_blog(request):
       blog = form.save(commit=False)
       blog.author = request.user
       blog.save() 
+      messages.success(request, 'Your blog has been created successfully!')
       return redirect('blogs_list')
 
     else:
+      messages.error(request, 'There was an error creating your blog. Please try again.')
       return render(request, 'blog/new_blog.html', {'form': form})
 
   else:
@@ -62,14 +65,15 @@ def create_comment(request, blog_id):
 
   if request.method == 'POST':
     form = CommentForm(request.POST)
-    
+
     if form.is_valid():
       comment = form.save(commit=False)
       comment.blog = blog
       comment.author = request.user
       comment.save()
+      messages.success(request, 'Your comment has been posted successfully!')
       return redirect('blog_detail', id=blog.id)
-    
+
   else:
     form = CommentForm()
 
