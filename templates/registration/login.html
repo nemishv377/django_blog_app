@@ -8,43 +8,43 @@
 {% endblock %}
 
 {% block content %}
-  <div class="login_page">
-    <section class="login-container">
-      <h1>Login</h1>
-      {% if form.errors %}
-        <div class="error-message">
-          <p>Your username and password didn't match. Please try again.</p>
-        </div>
-      {% endif %}
-      {% if next %}
-        {% if user.is_authenticated %}
-          <div class="error-message">
-            <p>Please login with an account that has access.</p>
-          </div>
-        {% else %}
-          <div class="error-message">
-            <p>Please login to see this page.</p>
-          </div>
-        {% endif %}
-      {% endif %}
+<div class="login_page">
+  <section class="login-container">
+    <h1>Login</h1>
+    {% if form.errors %}
+    <div class="error-message">
+      <p>Your username and password didn't match. Please try again.</p>
+    </div>
+    {% endif %}
+    {% if next_url %}
+    {% if user.is_authenticated %}
+    <div class="error-message">
+      <p>Please login with an account that has access.</p>
+    </div>
+    {% elif next_url != 'home' %}
+    <div class="error-message">
+      <p>Please login to see this page.</p>
+    </div>
+    {% endif %}
+    {% endif %}
 
-      <form method="post" action="{% url 'login' %}">
-        {% csrf_token %}
-        <div class="form-group">
-          <label for="id_username">{{ form.username.label }}</label>
-          {{ form.username }}
-        </div>
-        <div class="form-group">
-          <label for="id_password">{{ form.password.label }}</label>
-          {{ form.password }}
-        </div>
-        <button type="submit" class="btn-submit">Login</button>
-        <input type="hidden" name="next" value="{{ next }}">
-      </form>
-      
-      <p><a href="{% url 'password_reset' %}" class="forgot-password">Lost password?</a></p>
-      <br>
-      <p>Don't have an account? <a href="{% url 'signup' %}">Register</a></p>
-    </section>
-  </div>
+    <form method="post" action="{% url 'login' %}">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="id_username">{{ form.username.label }}</label>
+        {{ form.username }}
+      </div>
+      <div class="form-group">
+        <label for="id_password">{{ form.password.label }}</label>
+        {{ form.password }}
+      </div>
+      <button type="submit" class="btn-submit">Login</button>
+      <input type="hidden" name="next" value="{{ next_url }}">
+    </form>
+
+    <p><a href="{% url 'password_reset' %}" class="forgot-password">Lost password?</a></p>
+    <br>
+    <p>Don't have an account? <a href="{% url 'signup' %}">Register</a></p>
+  </section>
+</div>
 {% endblock %}

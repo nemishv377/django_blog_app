@@ -34,16 +34,24 @@
       <td><img src="{{ blog.image.url }}" alt="Image for {{ blog.title }}" width="300" height="300" /></td>
     </tr>
     <tr style="height: 20px;"></tr>
-    <tr>
-      <th>Description</th>
-      <td>:</td>
-      <td>
-        <p>
-          {% lorem 5 p %}
-        </p>
-      </td>
-    </tr>
   </table>
+  <div class="comment-header">
+    <a href="{% url 'create_comment' blog.id %}" class="add-comment-btn">Add a Comment</a>
+  </div>
+
+  {% if blog.comments.all %}
+  <div class="comments-list">
+    {% for comment in blog.comments.all %}
+    <div class="comment-box">
+      <p class="comment-author">{{ comment.author }}</p>
+      <p class="comment-message">{{ comment }}</p>
+      <p class="comment-date">Posted {{ comment.time_display }}</p>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="no-comments">No comments yet. Be the first to comment!</p>
+  {% endif %}
 </section>
 
 {% endblock %}

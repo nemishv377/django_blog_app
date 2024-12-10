@@ -19,7 +19,7 @@
         {{ blog.content }}
       </div>
       <div class="right">
-        <p>{{ blog.author.get_full_name|capfirst }}</p>
+        <p><a href="{% url 'blogger_detail' blog.author.id %}">{{ blog.author.get_full_name|capfirst }}</a></p>
         <p>Posted: {{ blog.time_display }}</p>
       </div>
     </div>

@@ -72,8 +72,8 @@ button[type="submit"]:hover {
 
 .error-message {
   color: red;
-  font-size: 12px;
-  margin-top: 5px;
+  font-size: 15px;
+  margin: 5px 0px 10px 0px;
 }
 
 .forgot-password {
