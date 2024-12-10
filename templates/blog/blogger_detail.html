@@ -59,6 +59,7 @@
     <div>
       <p><a href="{% url 'blog_detail' blog.id %}">{{ blog.title }}</a></p>
       <p>{{ blog.content }}</a></p>
+      <p>Comments : {{ blog.comments.count }}</a></p>
       <p>Posted : {{ blog.time_display }}</p>
     </div>
     {% if user.id == blog.author.id and "profile" in request.path %}

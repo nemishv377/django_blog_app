@@ -36,3 +36,76 @@ td:nth-child(2) {
 p{
   text-align: justify;
 }
+
+.comment-section {
+  margin-top: 30px;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.add-comment-btn {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.add-comment-btn:hover {
+  background-color: #0056b3;
+}
+
+.login-message {
+  font-size: 14px;
+  color: #555;
+}
+
+.login-link {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.login-link:hover {
+  text-decoration: underline;
+}
+
+.comments-list {
+  margin-top: 20px;
+}
+
+.comment-box {
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.comment-author {
+  font-size: 22px;
+  font-weight: bold;
+  color: #333;
+}
+
+.comment-message {
+  font-size: 20px;
+  color: #555;
+}
+
+.comment-date {
+  font-size: 15px;
+  color: #888;
+  margin-top: 10px;
+}
+
+.no-comments {
+  font-size: 14px;
+  color: #666;
+}

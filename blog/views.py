@@ -3,6 +3,7 @@ from .models import Blog
 from accounts.models import Author
 from django.core.paginator import Paginator
 from .forms import BlogForm
+from .forms import CommentForm
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -67,3 +68,23 @@ def blogger_detail(request, id):
   blogs = Blog.objects.filter(author=author).order_by('-created_at')
 
   return render(request, 'blog/blogger_detail.html', {'author': author, 'blogs': blogs})
+
+
+@login_required
+def create_comment(request, blog_id):
+  blog = get_object_or_404(Blog, id=blog_id)
+
+  if request.method == 'POST':
+    form = CommentForm(request.POST)
+    
+    if form.is_valid():
+      comment = form.save(commit=False)
+      comment.blog = blog
+      comment.author = request.user
+      comment.save()
+      return redirect('blog_detail', id=blog.id)
+    
+  else:
+    form = CommentForm()
+
+  return render(request, 'blog/create_comment.html', {'form': form, 'blog': blog})
