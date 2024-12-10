@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/blog/new_blog.css' %}">
+{% endblock %}
+
+{% block content %}
+<section>
+  <div class="heading">
+    <h1>Create a New Blog</h1>
+  </div>
+  <div class="blog_form">
+    <form method="POST" enctype="multipart/form-data" novalidate>
+      {% csrf_token %}
+      <table class="form-group">
+        {% for field in form %}
+        <tr>
+          <td class="form-label">{{ field.label_tag }}</td>
+        </tr>
+        <tr>
+          <td class="form-input">{{ field }}</td>
+        </tr>
+        <tr>
+          <td>
+            {% if field.errors %}
+            <div class="error-message">{{ field.errors.0 }}</div>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+      <button type="submit">Create Blog</button>
+    </form>
+  </div>
+</section>
+{% endblock %}
