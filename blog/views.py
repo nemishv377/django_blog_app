@@ -2,8 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Blog
 from accounts.models import Author
 from django.core.paginator import Paginator
-from .forms import BlogForm
-from .forms import CommentForm
+from .forms import BlogForm, CommentForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
@@ -20,10 +19,6 @@ def new_blog(request):
       blog.save() 
       messages.success(request, 'Your blog has been created successfully!')
       return redirect('blogs_list')
-
-    else:
-      messages.error(request, 'There was an error creating your blog. Please try again.')
-      return render(request, 'blog/new_blog.html', {'form': form})
 
   else:
     form = BlogForm()
