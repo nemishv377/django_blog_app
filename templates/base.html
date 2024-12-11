@@ -39,9 +39,13 @@
         <li><a href="{% url 'blogs_list' %}">Blogs</a></li>
         <li><a href="{% url 'bloggers_list' %}">Bloggers</a></li>
         {% if user.is_authenticated %}
-        <li><a href="{% url 'profile' %}">My Profile</a></li>
+        {% if user_can_add_blog %}
+        <li><a href="{% url 'profile' %}">Register Blogger</a></li>
         {% endif %}
-        {% if user.is_authenticated %}
+        {% if user_can_add_blog %}
+        <li><a href="{% url  'new_blog' %}">New Blog Post</a></li>
+        {% endif %}
+        <li><a href="{% url 'profile' %}">My Profile</a></li>
         <li style="margin-top: auto;">
           <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Log Out</a>
           <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
