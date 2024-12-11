@@ -45,7 +45,8 @@ tr .form-label{
 
 input,
 textarea,
-button {
+button,
+select {
   width: 100%;
   padding: 10px;
   font-size: 16px;

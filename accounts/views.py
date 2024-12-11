@@ -6,12 +6,14 @@ from .models import Author
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
+from .utils import get_user_permissions
 
 # Create your views here.
 
 def custom_login_view(request):
 
   if request.user.is_authenticated:
+    messages.success(request, 'You have already logged in!')
     return redirect('home')
  
   next_url = request.GET.get('next') or request.POST.get('next')
@@ -28,13 +30,19 @@ def custom_login_view(request):
 
   else:
     form = AuthenticationForm()
+    
+  content = {
+    'form': form,
+    'next_url': next_url
+  }
 
-  return render(request, 'registration/login.html', {'form': form, 'next_url': next_url})
+  return render(request, 'registration/login.html', content)
 
 
 def signup(request):
 
   if request.user.is_authenticated:
+    messages.success(request, 'You have already logged in!')
     return redirect('home')
 
   if request.method == 'POST':
@@ -62,5 +70,40 @@ def custom_logout_view(request):
 def profile(request):
   author = request.user
   blogs = Blog.objects.filter(author=author).order_by('-created_at')
+  user_has_perm = get_user_permissions(request.user)
+  content = {
+    'author': author,
+    'blogs': blogs,
+    **user_has_perm  
+  }
 
-  return render(request, 'accounts/my_profile.html', {'author': author, 'blogs': blogs})
+  return render(request, 'accounts/my_profile.html', content)
+
+
+@login_required
+def register(request):
+
+  if request.user.has_perm('author.can_add_author'):
+
+    if request.method == 'POST':
+      form = AuthorSignupForm(request.POST)
+
+      if form.is_valid():
+        user = form.save()
+        messages.success(request, f'{user.username} have successfully registered!')
+        return redirect('home')
+
+    else:
+      form = AuthorSignupForm()
+    
+    user_has_perm = get_user_permissions(request.user)
+    content = {
+      'form': form,
+      **user_has_perm  
+    }
+
+    return render(request, 'accounts/signup.html', content)
+
+  else:
+    messages.error(request, "You are not authorized to access that page!")
+    return redirect('home')

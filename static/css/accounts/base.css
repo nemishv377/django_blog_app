@@ -154,3 +154,7 @@ body {
   background: transparent;
   border: 0;
 }
+
+a{
+  text-decoration: none;
+}

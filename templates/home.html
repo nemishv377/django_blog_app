@@ -13,13 +13,6 @@
       Whether you are an aspiring writer or an avid reader, you can explore a variety of blogs and leave comments to
       join the conversation.</p>
   </div>
-  {% if user.is_authenticated %}
-  <a href={% url 'new_blog' %}>
-    <div class="new_blog">
-      Add Blog
-    </div>
-  </a>
-  {% endif %}
 </section>
 
 {% if not user.is_authenticated %}

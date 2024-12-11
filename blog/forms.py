@@ -1,5 +1,6 @@
 from django import forms
 from .models import Blog, Comment
+from accounts.models import Author
 from django.core.exceptions import ValidationError
 
 class BlogForm(forms.ModelForm):
@@ -22,10 +23,16 @@ class BlogForm(forms.ModelForm):
     error_messages={'required': 'Image cannot be empty'}
   )
 
+  author = forms.ModelChoiceField(
+    queryset=Author.objects.all(),
+    required=True,
+    widget=forms.Select(attrs={'class': 'form-control'}),
+    error_messages={'required': 'Author is required'}
+  )
 
   class Meta:
     model = Blog
-    fields = ['title', 'content', 'image']
+    fields = ['title', 'content', 'image', 'author']
 
 
   def __init__(self, *args, **kwargs):
