@@ -32,7 +32,7 @@ def new_blog(request):
 
     if form.is_valid():
       blog = form.save(commit=False)
-      blog.author = request.user
+      blog.author = form.cleaned_data['author'] 
       blog.save() 
       messages.success(request, 'Your blog has been created successfully!')
       return redirect('blogs_list')

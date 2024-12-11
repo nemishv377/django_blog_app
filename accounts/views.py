@@ -13,6 +13,7 @@ from .utils import get_user_permissions
 def custom_login_view(request):
 
   if request.user.is_authenticated:
+    messages.success(request, 'You have already logged in!')
     return redirect('home')
  
   next_url = request.GET.get('next') or request.POST.get('next')
@@ -41,6 +42,7 @@ def custom_login_view(request):
 def signup(request):
 
   if request.user.is_authenticated:
+    messages.success(request, 'You have already logged in!')
     return redirect('home')
 
   if request.method == 'POST':
@@ -76,3 +78,31 @@ def profile(request):
   }
 
   return render(request, 'accounts/my_profile.html', content)
+
+
+def register(request):
+
+  if request.user.is_authenticated and request.user.has_perm('author.can_add_author'):
+
+    if request.method == 'POST':
+      form = AuthorSignupForm(request.POST)
+
+      if form.is_valid():
+        user = form.save()
+        messages.success(request, '{user.username} have successfully registered!!')
+        return redirect('home')
+
+    else:
+      form = AuthorSignupForm()
+    
+    user_has_perm = get_user_permissions(request.user)
+    content = {
+      'form': form,
+      **user_has_perm  
+    }
+
+    return render(request, 'accounts/signup.html', content)
+
+  else:
+    messages.error(request, "You are not authorized to access that page!")
+    return redirect('profile')
