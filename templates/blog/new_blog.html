@@ -1,6 +1,15 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %}
+{% if is_edit %}
+Edit Blog
+{% else %}
+Create a New Blog
+{% endif %}
+{% endblock %}
+
+
 {% block stylesheet %}
 <link rel="stylesheet" href="{% static 'css/blog/new_blog.css' %}">
 {% endblock %}
@@ -8,7 +17,13 @@
 {% block content %}
 <section>
   <div class="heading">
-    <h1>Create a New Blog</h1>
+    <h1>
+      {% if is_edit %}
+      Edit Blog
+      {% else %}
+      Create a New Blog
+      {% endif %}
+    </h1>
   </div>
   <div class="blog_form">
     <form method="POST" enctype="multipart/form-data" novalidate>
@@ -30,7 +45,13 @@
         </tr>
         {% endfor %}
       </table>
-      <button type="submit">Create Blog</button>
+      <button type="submit">
+        {% if is_edit %}
+        Update
+        {% else %}
+        Create
+        {% endif %}
+      </button>
     </form>
   </div>
 </section>

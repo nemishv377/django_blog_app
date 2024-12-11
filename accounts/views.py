@@ -80,16 +80,17 @@ def profile(request):
   return render(request, 'accounts/my_profile.html', content)
 
 
+@login_required
 def register(request):
 
-  if request.user.is_authenticated and request.user.has_perm('author.can_add_author'):
+  if request.user.has_perm('author.can_add_author'):
 
     if request.method == 'POST':
       form = AuthorSignupForm(request.POST)
 
       if form.is_valid():
         user = form.save()
-        messages.success(request, '{user.username} have successfully registered!!')
+        messages.success(request, f'{user.username} have successfully registered!')
         return redirect('home')
 
     else:
@@ -105,4 +106,4 @@ def register(request):
 
   else:
     messages.error(request, "You are not authorized to access that page!")
-    return redirect('profile')
+    return redirect('home')

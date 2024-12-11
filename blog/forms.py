@@ -32,7 +32,7 @@ class BlogForm(forms.ModelForm):
 
   class Meta:
     model = Blog
-    fields = ['title', 'content', 'image']
+    fields = ['title', 'content', 'image', 'author']
 
 
   def __init__(self, *args, **kwargs):

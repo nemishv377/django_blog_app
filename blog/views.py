@@ -24,7 +24,7 @@ def home(request):
 def new_blog(request):
   
   if not request.user.has_perm('blog.add_blog'):
-    messages.info(request, 'You are not authorized to that page!')
+    messages.error(request, 'You are not authorized to access that page!')
     return redirect('home')
   
   if request.method == 'POST':
@@ -43,9 +43,43 @@ def new_blog(request):
   user_has_perm = get_user_permissions(request.user)
   content = {
     'form': form,
+    'is_edit': False,
     **user_has_perm  
   }
 
+  return render(request, 'blog/new_blog.html', content)
+
+
+@login_required
+def edit_blog(request, id):
+
+  if not request.user.has_perm('blog.change_blog'):
+    messages.error(request, 'You are not authorized to access that page!')
+    return redirect('home')
+    
+  blog = get_object_or_404(Blog, id=id)
+
+  if request.method == 'POST':
+    form = BlogForm(request.POST, request.FILES, instance=blog)
+    
+    if form.is_valid():
+      blog = form.save(commit=False)
+      blog.author = form.cleaned_data['author'] 
+      blog.save() 
+      messages.success(request, 'Your blog has been updated successfully!')
+      return redirect('blogs_list')
+  
+  else:
+    form = BlogForm(instance=blog)
+    form.fields['author'].selected = blog.author_id
+  
+  user_has_perm = get_user_permissions(request.user)
+  content = {
+    'form': form,
+    'is_edit': True,
+    **user_has_perm  
+  }
+  
   return render(request, 'blog/new_blog.html', content)
 
 
@@ -56,11 +90,11 @@ def delete_blog(request, id):
   if request.user.has_perm('blog.can_delete_blog') and request.method == 'POST':
     messages.success(request, "Blog deleted successfully!")
     blog.delete()
+    return redirect('blogs_list')
   
   else:
     messages.error(request, "You are not authorized to access that page!")
-
-  return redirect('profile')
+    return redirect('home')
 
 
 def blogs_list(request):
