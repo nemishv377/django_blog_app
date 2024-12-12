@@ -52,12 +52,17 @@ def new_blog(request):
 
 @login_required
 def edit_blog(request, id):
+  
+  try:
+    blog = Blog.objects.get(id=id)
+  
+  except Blog.DoesNotExist:
+    raise Blog.DoesNotExist("The blog you are trying to edit does not exist.")
 
   if not request.user.has_perm('blog.change_blog'):
     messages.error(request, 'You are not authorized to access that page!')
     return redirect('home')
     
-  blog = get_object_or_404(Blog, id=id)
 
   if request.method == 'POST':
     form = BlogForm(request.POST, request.FILES, instance=blog)
@@ -85,7 +90,12 @@ def edit_blog(request, id):
 
 @login_required
 def delete_blog(request, id):
-  blog = get_object_or_404(Blog, id=id)
+  
+  try:
+    blog = Blog.objects.get(id=id)
+  
+  except Blog.DoesNotExist:
+    raise Blog.DoesNotExist("The blog you are trying to delete is not exist.")
   
   if request.user.has_perm('blog.can_delete_blog') and request.method == 'POST':
     messages.success(request, "Blog deleted successfully!")
