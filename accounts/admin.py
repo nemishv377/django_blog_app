@@ -36,6 +36,9 @@ class AuthorAdmin(UserAdmin):
         ('Permissions', {
             'fields': ('is_active', 'is_staff', 'is_superuser')
         }),
+        ('Groups', {
+            'fields': ('groups',)
+        }),
         ('Important Dates', {
             'fields': ('last_login',)
         }),
