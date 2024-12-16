@@ -54,6 +54,11 @@ class BlogModelTest(BlogModelTestBase):
     self.assertEqual(str(self.blog), self.blog.title)
 
 
+  def test_blog_get_absolute_url(self):
+    expected_url = reverse('blog_detail', kwargs={'id': self.blog.id})
+    self.assertEqual(self.blog.get_absolute_url(), expected_url)
+
+
   def test_image_size_validation(self):
     # Create a large image file (over 10MB)
     large_image_content = b"Fake image content" * 1024 * 1024  # 1MB * 10

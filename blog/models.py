@@ -4,6 +4,7 @@ from django.utils import timezone
 from datetime import timedelta
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
+from django.urls import reverse
 
 # Create your models here.
 class Blog(models.Model):
@@ -21,6 +22,10 @@ class Blog(models.Model):
 
   def __str__(self):
     return self.title
+
+
+  def get_absolute_url(self):
+    return reverse('blog_detail', kwargs={'id': self.id})
 
 
   @property
