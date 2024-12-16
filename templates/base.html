@@ -36,7 +36,7 @@
     <div id="sidebar">
       <ul>
         <li><a href="/blog/">Home</a></li>
-        <li><a href="{% url 'blogs_list' %}">Blogs</a></li>
+        <li><a href="{% url 'blogs' %}">Blogs</a></li>
         <li><a href="{% url 'bloggers_list' %}">Bloggers</a></li>
         {% if user.is_authenticated %}
         <li><a href="{% url 'profile' %}">My Profile</a></li>

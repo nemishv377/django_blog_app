@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 from dotenv import load_dotenv
 import os
+import sys
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -89,6 +90,13 @@ DATABASES = {
         'PORT': os.getenv('DB_PORT', '5432'),  
     }
 }
+
+if 'test' in sys.argv:
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': ':memory:',
+    }
+
 AUTH_USER_MODEL = 'accounts.Author'
 
 
