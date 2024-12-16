@@ -104,7 +104,6 @@ class UserAuthTests(TestCase):
 
 
   def test_custom_logout_view(self):
-    """Test that logging out redirects to the login page."""
     self.test_custom_login_view_valid_credentials()
 
     response = self.client.post(self.logout_url)
