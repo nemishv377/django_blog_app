@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}All Bloggers{% endblock %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/blog/bloggers_list.css' %}">
+{% endblock %}
+
+{% block content %}
+<section>
+  <div id="heading">List of All Bloggers</div>
+  {% for blogger in bloggers %}
+  <div class="author_deatil">
+    <p><a href="{% url 'blogger_detail' blogger.id %}">{{ blogger.get_full_name }}</a></p>
+    <p>Blogs : {{ blogger.blogs.count }}</p>
+    <p>Joining date : {{ blogger.joining_date }}</p>
+  </div>
+  {% empty %}
+  {% endfor %}
+  </ul>
+</section>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Add Comment{% endblock %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/blog/create_comment.css' %}" />
+{% endblock %}
+
+{% block content %}
+<section class="comment-form-section">
+  <h1 class="comment-header">
+    Comment on <a href="{% url 'blog_detail' blog.id %}" class="blog-title">{{ blog.title }}</a>
+  </h1>
+  <h6 class="blog-content">{{ blog.content }}</h6>
+
+  <form method="post" class="comment-form" novalidate>
+    {% csrf_token %}
+    <table class="form-group">
+      {% for field in form %}
+      <tr>
+        <td class="form-label">{{ field.label_tag }}</td>
+      </tr>
+      <tr>
+        <td class="form-input">{{ field }}</td>
+      </tr>
+      <tr>
+        <td>
+          {% if field.errors %}
+          <div class="error-message">{{ field.errors.0 }}</div>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+    <button type="submit" class="submit-btn">Post Comment</button>
+  </form>
+
+  <a href="{% url 'blog_detail' blog.id %}" class="back-to-blog">Back to Blog</a>
+</section>
+{% endblock %}
