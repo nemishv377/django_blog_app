@@ -25,6 +25,14 @@ class BlogModelTestBase(AuthorModelTestBase):
       author=self.user
     )
 
+    for i in range(1,17):
+      self.Blog.objects.create(
+        title=f"Test Blog {i}", 
+        content=f"Test content {i}", 
+        image=SimpleUploadedFile(name='test_image.jpg', content=b'fake image data', content_type='image/jpeg'),
+        author=self.user
+      )
+
 
 
 class BlogModelTest(BlogModelTestBase):

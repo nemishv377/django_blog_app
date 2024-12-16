@@ -35,7 +35,7 @@ def new_blog(request):
       blog.author = form.cleaned_data['author'] 
       blog.save() 
       messages.success(request, 'Your blog has been created successfully!')
-      return redirect('blogs_list')
+      return redirect('blogs')
 
   else:
     form = BlogForm()
@@ -72,7 +72,7 @@ def edit_blog(request, id):
       blog.author = form.cleaned_data['author'] 
       blog.save() 
       messages.success(request, 'Your blog has been updated successfully!')
-      return redirect('blogs_list')
+      return redirect('blogs')
   
   else:
     form = BlogForm(instance=blog)
@@ -100,7 +100,7 @@ def delete_blog(request, id):
   if request.user.has_perm('blog.can_delete_blog') and request.method == 'POST':
     messages.success(request, "Blog deleted successfully!")
     blog.delete()
-    return redirect('blogs_list')
+    return redirect('blogs')
   
   else:
     messages.error(request, "You are not authorized to access that page!")
