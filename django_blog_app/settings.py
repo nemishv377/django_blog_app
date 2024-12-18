@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts',
     'blog',
+    'rest_framework',
+    'apis',
 ]
 
 MIDDLEWARE = [
@@ -151,3 +153,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Store files in the 'media/' fold
 
 # Define the URL path to serve uploaded files (useful for development)
 MEDIA_URL = '/media/'  # Files will be accessible via URL like /media/blog_images/my_image.jpg
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 5
+
+}
