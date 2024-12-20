@@ -18,6 +18,9 @@ class IsAuthorPermission(permissions.BasePermission):
           print('http://localhost:8000/api/blog/blogs/' in request.build_absolute_uri())
           if 'http://localhost:8000/api/blog/blogs/' in request.build_absolute_uri():
             return True
+          
+          if 'http://localhost:8000/api/accounts/register/' in request.build_absolute_uri():
+            return True
     
     else:
       return False
