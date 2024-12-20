@@ -6,12 +6,12 @@ from rest_framework.relations import HyperlinkedIdentityField
 
 
 class CommentSerializer(serializers.ModelSerializer):
-  
+
   class Meta:
     model = Comment
     fields = ['message']
-    
-    
+
+
 class BlogSerializer(serializers.ModelSerializer):
   
   comments = CommentSerializer(many=True, read_only=True)

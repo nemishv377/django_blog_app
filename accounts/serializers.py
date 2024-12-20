@@ -53,7 +53,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 class RegisterSerializer(serializers.ModelSerializer):
   password = serializers.CharField(
-      write_only=True, required=True, validators=[validate_password]
+    write_only=True, required=True, validators=[validate_password]
   )
   password2 = serializers.CharField(write_only=True, required=True)
   joining_date = serializers.SerializerMethodField(default=timezone.now)
@@ -67,14 +67,14 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     if attrs['password'] != attrs['password2']:
       raise serializers.ValidationError({"password": "Passwords do not match."})
-    
+
     return attrs
 
   def create(self, validated_data):
-    
+
     if 'joining_date' not in validated_data or not validated_data['joining_date']:
       validated_data['joining_date'] = datetime.now().date()
-    
+
     user = Author.objects.create_user(
       username=validated_data['username'],
       email=validated_data['email'],
@@ -90,8 +90,6 @@ class RegisterSerializer(serializers.ModelSerializer):
     
     author_group, created = Group.objects.get_or_create(name="Author")
     user.groups.add(author_group)
-
-
     return user
   
   def get_joining_date(self, obj):

@@ -8,7 +8,6 @@ from accounts.serializers import *
 from blog.serializers import *
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.exceptions import NotFound
 from accounts.permissions import IsAuthorPermission
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -122,7 +121,7 @@ class RegisterView(generics.CreateAPIView):
 
 
 class AuthorsViewSet(viewsets.ModelViewSet): 
-  
+
   queryset = Author.objects.all() 
   serializer_class = AuthorSerializer
   permission_classes = [IsAuthorPermission]
@@ -141,14 +140,14 @@ class BlogsViewSet(viewsets.ModelViewSet):
 @api_view(['POST'])
 def signup(request):
   serializer = RegisterSerializer(data=request.data)
-  
+
   if serializer.is_valid():
     serializer.save()
     return Response({
       "message": "You have successfully signed up and are now logged in!.",
       "author": serializer.data,
     }, status=201)
-  
+
   return Response({
     "errors": serializer.errors
   }, status=400)
@@ -269,9 +268,9 @@ def delete_author(request, id):
     try:
       author = Author.objects.get(id=id)
   
-    except Blog.DoesNotExist:
+    except Author.DoesNotExist:
       return Response({
-      "message": "The blogger you are trying to edit does not exist.",
+      "message": "The blogger you are trying to delete does not exist.",
     }, status=400)
 
     author.delete()
@@ -375,15 +374,6 @@ def create_comment(request, id):
 
 
 
-
-
-
-
-
-
-
-
-
 class ForgetPasswordView(GenericAPIView):
   serializer_class = ForgotPasswordSerializer
   
@@ -413,16 +403,6 @@ class ForgetPasswordView(GenericAPIView):
     return Response({
       'token': token
     }, status=200)
-        
-        
-        
-        
-        
-        
-        
-
-
-
 
 
 
