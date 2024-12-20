@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/blog/blog_details.css' %}" />
+{% endblock %}
+
+{% block content %}
+<section>
+  <table>
+    <tr>
+      <th>Author</th>
+      <td>:</td>
+      <td>{{ blog.author.get_full_name|capfirst }}</td>
+    </tr>
+    <tr>
+      <th>Posted</th>
+      <td>:</td>
+      <td>{{ blog.time_display }}</td>
+    </tr>
+    <tr style="border-top: 1px solid #ddd; height: 20px;"></tr>
+    <tr>
+      <th>Title</th>
+      <td>:</td>
+      <td>{{ blog.title }}</td>
+    </tr>
+    <tr>
+      <th>Content</th>
+      <td>:</td>
+      <td>{{ blog.content }}</td>
+    </tr>
+    <tr>
+      <th>Image</th>
+      <td>:</td>
+      <td><img src="{{ blog.image.url }}" alt="Image for {{ blog.title }}" width="300" height="300" /></td>
+    </tr>
+    <tr style="height: 20px;"></tr>
+  </table>
+  <div class="comment-header">
+    <a href="{% url 'create_comment' blog.id %}" class="add-comment-btn">Add a Comment</a>
+  </div>
+
+  {% if blog.comments.all %}
+  <div class="comments-list">
+    {% for comment in blog.comments.all %}
+    <div class="comment-box">
+      <p class="comment-author">{{ comment.author }}</p>
+      <p class="comment-message">{{ comment }}</p>
+      <p class="comment-date">Posted {{ comment.time_display }}</p>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="no-comments">No comments yet. Be the first to comment!</p>
+  {% endif %}
+</section>
+
+{% endblock %}

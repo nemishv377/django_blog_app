@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+{% if is_edit %}
+Edit Blog
+{% else %}
+Create a New Blog
+{% endif %}
+{% endblock %}
+
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/blog/new_blog.css' %}">
+{% endblock %}
+
+{% block content %}
+<section>
+  <div class="heading">
+    <h1>
+      {% if is_edit %}
+      Edit Blog
+      {% else %}
+      Create a New Blog
+      {% endif %}
+    </h1>
+  </div>
+  <div class="blog_form">
+    <form method="POST" enctype="multipart/form-data" novalidate>
+      {% csrf_token %}
+      <table class="form-group">
+        {% for field in form %}
+        <tr>
+          <td class="form-label">{{ field.label_tag }}</td>
+        </tr>
+        <tr>
+          <td class="form-input">{{ field }}</td>
+        </tr>
+        <tr>
+          <td>
+            {% if field.errors %}
+            <div class="error-message">{{ field.errors.0 }}</div>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+      <button type="submit">
+        {% if is_edit %}
+        Update
+        {% else %}
+        Create
+        {% endif %}
+      </button>
+    </form>
+  </div>
+</section>
+{% endblock %}
