@@ -96,3 +96,14 @@ class RegisterSerializer(serializers.ModelSerializer):
   
   def get_joining_date(self, obj):
     return obj.joining_date if obj.joining_date else None
+
+
+
+class ForgotPasswordSerializer(serializers.Serializer):
+  email = serializers.CharField(max_length=100)
+
+
+
+class CheckOTPSerializer(serializers.Serializer):
+  otp = serializers.CharField(max_length=6)
+  token = serializers.CharField()
