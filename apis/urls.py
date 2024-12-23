@@ -19,4 +19,6 @@ urlpatterns = [
   path('accounts/', include('rest_framework.urls')),
   path('blog/blogger/<int:pk>/', views.BloggerViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}), name='blogger-detail'),
   path('blog/<int:pk>/', views.BlogViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}), name='blog-detail'),
+  path('accounts/password-reset/', views.PasswordResetRequestView.as_view(), name='password-reset-request'),
+  path('accounts/reset/<uidb64>/<token>/', views.PasswordResetConfirmView.as_view(), name='password-reset-confirm'),
 ]
