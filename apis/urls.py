@@ -3,6 +3,8 @@ from rest_framework import routers, status
 from . import views
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+
 
 
 router = routers.DefaultRouter()
@@ -11,6 +13,8 @@ router.register(r'blog/blogs', views.BlogViewSet, basename='blogs')
 
 urlpatterns = [
   path('', include(router.urls)),
+  path('accounts/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+  path('accounts/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
   path('accounts/signup/', views.signup, name='signup'),
   path('accounts/', include('rest_framework.urls')),
   path('blog/blogger/<int:pk>/', views.BloggerViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}), name='blogger-detail'),

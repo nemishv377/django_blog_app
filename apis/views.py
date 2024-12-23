@@ -4,7 +4,9 @@ from accounts.models import Author
 from rest_framework import permissions, viewsets
 from accounts.serializers import *
 from blog.serializers import *
-from rest_framework.decorators import api_view, action
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
 
@@ -12,6 +14,7 @@ class BloggerViewSet(viewsets.ModelViewSet):
   queryset = Author.objects.all().order_by('-date_joined')
   serializer_class = AuthorSerializer
   permission_classes = [permissions.IsAuthenticated]
+  authentication_classes = [JWTAuthentication]
 
 
 
@@ -19,6 +22,7 @@ class BlogViewSet(viewsets.ModelViewSet):
   queryset = Blog.objects.all().order_by('-created_at')
   serializer_class = BlogSerializer
   permission_classes = [permissions.IsAuthenticated]
+  authentication_classes = [JWTAuthentication]
   
 
 @api_view(['GET', 'POST'])
