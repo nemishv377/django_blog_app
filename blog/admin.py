@@ -25,6 +25,7 @@ class CommentAdmin(admin.ModelAdmin):
   model = Comment
   list_display = ('short_message', 'author', 'blog', 'created_at')  
   list_filter = ('author', 'blog', 'created_at')    
+  search_fields = ('message',)
   fields = ('message', 'author', 'blog')
   readonly_fields = ('created_at', 'updated_at')
 

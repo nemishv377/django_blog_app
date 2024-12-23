@@ -13,6 +13,12 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
 from django.contrib.sites.shortcuts import get_current_site
+from rest_framework.generics import GenericAPIView
+from django.shortcuts import get_object_or_404
+import random
+import datetime
+from accounts.security import create_token, decrypt_token
+from rest_framework_simplejwt.tokens import RefreshToken
 
 # Create your views here.
 
@@ -30,6 +36,29 @@ class BlogViewSet(viewsets.ModelViewSet):
   permission_classes = [permissions.IsAuthenticated]
   authentication_classes = [JWTAuthentication]
   
+
+
+@api_view(['POST'])
+def signup(request):
+  
+  if request.user.is_authenticated:
+    return Response({
+      "message": "You are already logged in, you cannot sign up again."
+    }, status=400)
+  
+  serializer = RegisterSerializer(data=request.data)
+
+  if serializer.is_valid():
+    serializer.save()
+    return Response({
+      "message": "You have successfully signed up!.",
+      "author": serializer.data,
+    }, status=201)
+
+  return Response({
+    "errors": serializer.errors
+  }, status=400)
+
 
 
 class PasswordResetRequestView(APIView):
@@ -92,24 +121,68 @@ class PasswordResetConfirmView(APIView):
     return Response({'message': f"{author}, your password reset successful."}, status=200)
   
   
-  
-@api_view(['POST'])
-def signup(request):
-  
-  if request.user.is_authenticated:
-    return Response({
-      "message": "You are already logged in, you cannot sign up again."
-    }, status=400)
-  
-  serializer = RegisterSerializer(data=request.data)
 
-  if serializer.is_valid():
-    serializer.save()
-    return Response({
-      "message": "You have successfully signed up!.",
-      "author": serializer.data,
-    }, status=201)
+class ForgetPasswordView(GenericAPIView):
+  serializer_class = ForgotPasswordSerializer
 
-  return Response({
-    "errors": serializer.errors
-  }, status=400)
+  def post(self, request, *args, **kwargs):
+    serilaizer = self.serializer_class(data=request.data)
+    serilaizer.is_valid(raise_exception=True)
+    email = serilaizer.validated_data['email']
+    author = get_object_or_404(Author, email=email)
+    otp = str(random.randint(100000, 999999))
+    payload = {
+      'user_id': author.id,
+      'email': author.email,
+      'otp': otp,
+      'exp': datetime.datetime.now() + datetime.timedelta(minutes=5)
+    }
+    token = create_token(payload)
+
+    send_mail(
+      'OTP for Forget Password',
+      f'Your Otp is {otp}',
+      'no-reply@example.com',
+      [author.email],
+    )
+    
+    return Response({
+      'token': token
+    }, status=200)
+
+
+
+class CheckOTPView(GenericAPIView):
+  serializer_class = CheckOTPSerializer
+
+  def post(self, request, *args, **kwargs):
+
+    serialzier = self.serializer_class(data=request.data)
+    serialzier.is_valid(raise_exception=True)
+    otp = serialzier.validated_data['otp']
+    enc_token = serialzier.validated_data['token']
+    data = decrypt_token(enc_token)
+
+    if data['status']:
+      otp_real = data['payload']['otp']
+
+      if otp == otp_real:
+        email = data['payload']['email']
+        author = Author.objects.get(email=email)
+        access_token = str(RefreshToken.for_user(author).access_token)
+
+        return Response({
+          'access_token': access_token,
+          'status': True,
+        }, status=200)
+
+      else:
+        return Response({
+          'message': 'OTP didnt matched....'
+        }, status=400)
+
+    else:
+      return Response({
+        'message': 'OTP expired...Try Again!!',
+        'status': False
+      }, status=400)

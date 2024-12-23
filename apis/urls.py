@@ -21,4 +21,6 @@ urlpatterns = [
   path('blog/<int:pk>/', views.BlogViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}), name='blog-detail'),
   path('accounts/password-reset/', views.PasswordResetRequestView.as_view(), name='password-reset-request'),
   path('accounts/reset/<uidb64>/<token>/', views.PasswordResetConfirmView.as_view(), name='password-reset-confirm'),
+  path('accounts/forgot-password/', views.ForgetPasswordView.as_view(), name='forgot-password'),
+  path('accounts/check-otp/', views.CheckOTPView.as_view(), name='check-otp'),
 ]
