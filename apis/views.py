@@ -14,7 +14,6 @@ from django.template.loader import render_to_string
 from django.core.mail import send_mail
 from django.contrib.sites.shortcuts import get_current_site
 from rest_framework.generics import GenericAPIView
-from django.shortcuts import get_object_or_404
 import random
 import datetime
 from accounts.security import create_token, decrypt_token
@@ -29,23 +28,77 @@ class BloggerViewSet(viewsets.ModelViewSet):
   authentication_classes = [JWTAuthentication]
 
 
+  def create(self,request):
+
+    if not request.user.has_perm('can_add_author'):
+      return Response(
+        {"detail": "You are not authorized to add an blogger."},
+        status=403
+      )
+
+    serializer = RegisterSerializer(data=request.data)
+
+    if serializer.is_valid():
+      serializer.save()
+      return Response({
+        "message": "Blogger registered successfully.",
+        "author": serializer.data,
+      }, status=201)
+
+    return Response({
+      "errors": serializer.errors
+    }, status=400)
+
+
+  def update(self, request, pk=None):
+    
+    if not request.user.has_perm('can_change_author'):
+      return Response({
+        "detail": "You are not authorized to update an blogger."},
+        status=403
+      )
+
+    instance = self.get_object()
+    serializer = self.get_serializer(instance, data=request.data, partial=True)
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
+    response_data = serializer.data
+    response_data['message'] = 'Blogger updated successfully.'
+    return Response(response_data, status=200)
+
+
+  def destroy(self, request, pk=None):
+
+    if not request.user.has_perm('can_delete_author'):
+      return Response({
+        "detail": "You are not authorized to delete an blogger."},
+        status=403
+      )
+
+    instance = self.get_object()
+    instance.delete()
+    return Response({
+      "detail": "Blogger deleted successfully."
+    }, status=204)
+
+
 
 class BlogViewSet(viewsets.ModelViewSet):
   queryset = Blog.objects.all().order_by('-created_at')
   serializer_class = BlogSerializer
   permission_classes = [permissions.IsAuthenticated]
   authentication_classes = [JWTAuthentication]
-  
+
 
 
 @api_view(['POST'])
 def signup(request):
-  
+
   if request.user.is_authenticated:
     return Response({
       "message": "You are already logged in, you cannot sign up again."
     }, status=400)
-  
+
   serializer = RegisterSerializer(data=request.data)
 
   if serializer.is_valid():
@@ -79,11 +132,10 @@ class PasswordResetRequestView(APIView):
 
     send_mail(
       'Password Reset Request',
-      "",
+      email_message,
       'no-reply@example.com',
       [author.email],
       fail_silently=False,
-      html_message=email_message
     )
 
     return Response({
@@ -94,9 +146,9 @@ class PasswordResetRequestView(APIView):
 
 
 class PasswordResetConfirmView(APIView):
-  
-  def post(self, request, uidb64, token):
 
+  def post(self, request, uidb64, token):
+    
     try:
       uid = urlsafe_base64_decode(uidb64).decode('utf-8')
       author = Author.objects.get(pk=uid)
@@ -112,15 +164,15 @@ class PasswordResetConfirmView(APIView):
 
     if not new_password or not new_password_confirmation:
       return Response({'error': 'Both password and password confirmation are required.'}, status=400)
-    
+
     if new_password != new_password_confirmation:
       return Response({'error': 'The two password fields didn’t match.'}, status=400)
 
     author.set_password(new_password)
     author.save()
-    return Response({'message': f"{author}, your password reset successful."}, status=200)
-  
-  
+    return Response({'message': f"{author}, your password reset successfully."}, status=200)
+
+
 
 class ForgetPasswordView(GenericAPIView):
   serializer_class = ForgotPasswordSerializer
@@ -129,7 +181,15 @@ class ForgetPasswordView(GenericAPIView):
     serilaizer = self.serializer_class(data=request.data)
     serilaizer.is_valid(raise_exception=True)
     email = serilaizer.validated_data['email']
-    author = get_object_or_404(Author, email=email)
+
+    try:
+      author = Author.objects.get(email=email)
+
+    except Author.DoesNotExist:
+      return Response({
+        'detail':"Author with the given email not found."
+      }, status=200)
+
     otp = str(random.randint(100000, 999999))
     payload = {
       'user_id': author.id,
@@ -145,7 +205,7 @@ class ForgetPasswordView(GenericAPIView):
       'no-reply@example.com',
       [author.email],
     )
-    
+
     return Response({
       'token': token
     }, status=200)
@@ -173,16 +233,15 @@ class CheckOTPView(GenericAPIView):
 
         return Response({
           'access_token': access_token,
-          'status': True,
+          'message': 'OTP matched, access granted.'
         }, status=200)
 
       else:
         return Response({
-          'message': 'OTP didnt matched....'
+          'message': 'OTP expired or invalid....'
         }, status=400)
 
     else:
       return Response({
-        'message': 'OTP expired...Try Again!!',
-        'status': False
+        'message': 'Token invalid. Try Again!!',
       }, status=400)
