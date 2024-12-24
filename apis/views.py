@@ -38,9 +38,14 @@ class BloggerViewSet(viewsets.ModelViewSet):
 
     serializer = RegisterSerializer(data=request.data)
 
-    if serializer.is_valid():
-      serializer.save()
+    if serializer.is_valid(raise_exception=True):
+      user = serializer.save()
+      refresh_token = RefreshToken.for_user(user)
+      access_token = refresh_token.access_token
+
       return Response({
+        "refresh": str(refresh_token),
+        "access": str(access_token),
         "message": "Blogger registered successfully.",
         "author": serializer.data,
       }, status=201)
@@ -101,10 +106,15 @@ def signup(request):
 
   serializer = RegisterSerializer(data=request.data)
 
-  if serializer.is_valid():
-    serializer.save()
+  if serializer.is_valid(raise_exception=True):
+    user = serializer.save()
+    refresh_token = RefreshToken.for_user(user)
+    access_token = refresh_token.access_token
+
     return Response({
-      "message": "You have successfully signed up!.",
+      "refresh": str(refresh_token),
+      "access": str(access_token),
+      "message": "You have successfully signed up and are now logged in!!.",
       "author": serializer.data,
     }, status=201)
 
