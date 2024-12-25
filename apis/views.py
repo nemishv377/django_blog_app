@@ -18,6 +18,7 @@ import random
 import datetime
 from accounts.security import create_token, decrypt_token
 from rest_framework_simplejwt.tokens import RefreshToken
+from drf_yasg.utils import swagger_auto_schema 
 
 # Create your views here.
 
@@ -76,15 +77,14 @@ class BloggerViewSet(viewsets.ModelViewSet):
 
     if not request.user.has_perm('can_delete_author'):
       return Response({
-        "detail": "You are not authorized to delete an blogger."},
-        status=403
-      )
+        "detail": "You are not authorized to delete an blogger."
+      }, status=403)
 
     instance = self.get_object()
     instance.delete()
     return Response({
       "detail": "Blogger deleted successfully."
-    }, status=204)
+    }, status=200)
 
 
 
@@ -96,6 +96,11 @@ class BlogViewSet(viewsets.ModelViewSet):
 
 
 
+@swagger_auto_schema(
+  method='post',
+  request_body=RegisterSerializer,
+  responses={201: RegisterSerializer, 400: 'Bad Request'}
+)
 @api_view(['POST'])
 def signup(request):
 
@@ -124,10 +129,14 @@ def signup(request):
 
 
 
-class PasswordResetRequestView(APIView):
+class PasswordResetRequestView(GenericAPIView):
+  serializer_class = PasswordResetRequestSerializer
 
   def post(self, request):
     email = request.data.get('email')
+
+    if not email:
+      return Response({"error": "Email is required."}, status=400)
 
     try:
       author = Author.objects.get(email=email)
@@ -155,7 +164,8 @@ class PasswordResetRequestView(APIView):
 
 
 
-class PasswordResetConfirmView(APIView):
+class PasswordResetConfirmView(GenericAPIView):
+  serializer_class = PasswordResetConfirmSerializer
 
   def post(self, request, uidb64, token):
     

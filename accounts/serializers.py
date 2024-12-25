@@ -19,7 +19,7 @@ class GroupSerializer(serializers.ModelSerializer):
 class AuthorSerializer(serializers.ModelSerializer):
   blogs = BlogSerializer(many=True, read_only=True)
   groups = GroupSerializer(many=True, read_only=True)
-  joining_date = serializers.SerializerMethodField(default=timezone.now)
+
 
   class Meta:
     model = Author
@@ -27,11 +27,6 @@ class AuthorSerializer(serializers.ModelSerializer):
     extra_kwargs = {
       'url': {'view_name': 'blogger-detail'}
     }
-
-
-  def get_joining_date(self, obj):
-    return obj.joining_date if obj.joining_date else None
-  
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -60,7 +55,18 @@ class RegisterSerializer(serializers.ModelSerializer):
 
   def get_joining_date(self, obj):
     return obj.joining_date if obj.joining_date else None
-  
+
+
+
+class PasswordResetRequestSerializer(serializers.Serializer):
+  email = serializers.CharField(max_length=100)
+
+
+
+class PasswordResetConfirmSerializer(serializers.Serializer):
+  new_password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
+  new_password_confirmation = serializers.CharField(write_only=True, required=True)
+
 
 
 class ForgotPasswordSerializer(serializers.Serializer):
