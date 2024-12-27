@@ -6,7 +6,26 @@ const username = JSON.parse(document.getElementById('username').textContent);
 let chatLog = document.querySelector("#chatLog");
 let chatMessageInput = document.querySelector("#chatMessageInput");
 let chatMessageSend = document.querySelector("#chatMessageSend");
-let onlineUsersContainer = document.querySelector("#id_onlineUsers_item_container");
+let onlineUsersItemContainer = document.querySelector("#onlineUsersItemContainer");
+
+function onlineUsersAdd(user) {
+  // if (document.querySelector(`#${user}`)) return;
+  let newdiv = document.createElement("div");
+  newdiv.className = "online-user-item";
+  newdiv.id = user;
+  console.log(newdiv)
+  newdiv.innerHTML = `
+            <div class="user-status"></div>
+            <span>${user}</span>
+          `;
+  onlineUsersItemContainer.appendChild(newdiv);
+}
+
+// removes an option from 'onlineUsersSelector'
+function onlineUsersRemove(user) {
+  let oldOption = document.querySelector(`#${user}`);
+  if (oldOption !== null) oldOption.remove();
+}
 
 
 // focus 'chatMessageInput' when user opens the page
@@ -55,7 +74,8 @@ function connect() {
 
   chatSocket.onmessage = function(e) {
     const data = JSON.parse(e.data);
-
+    console.log(data.type)
+    
     switch (data.type) {
       
       case "chat_message":
@@ -69,6 +89,24 @@ function connect() {
         </div>`;
         document.querySelector("#chatMessageSend").value = "";
         messageContainer.appendChild(div);
+        messageContainer.scrollTop = messageContainer.scrollHeight;
+        break;
+        
+      case "user_join":
+        let joinMessage = document.querySelector("#joinLeftMessage");       
+        joinMessage.innerHTML = data.user + " joined the room.\n"; 
+        onlineUsersItemContainer.innerHTML = ''; 
+        data.users.forEach(user => {
+          onlineUsersAdd(user);
+        });
+        console.log(data.users);
+        break;
+        
+      case "user_leave":
+        let LeftMessage = document.querySelector("#joinLeftMessage");
+        LeftMessage.innerHTML = data.user + " left the room.\n";
+        onlineUsersRemove(data.user);
+        console.log(data.users);
         break;
         
       default:
@@ -77,7 +115,6 @@ function connect() {
       }
         
     // Scroll to the bottom of the chat container
-    messageContainer.scrollTop = messageContainer.scrollHeight;
   };
 
   chatSocket.onerror = function(err) {

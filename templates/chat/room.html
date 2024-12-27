@@ -23,14 +23,10 @@
     </div>
     <div class="chat-column">
       <label for="onlineUsers">Online users</label>
-      <div class="onlineUsers_item_container" id="id_onlineUsers_item_container">
-        {% for user in online_users %}
-        <div class="online-user-item">
-          <div class="user-status"></div> <!-- Active user indicator -->
-          <span>{{ user.username }}</span> <!-- Display user name -->
-        </div>
-        {% endfor %}
+      <div class="onlineUsers_item_container" id="onlineUsersItemContainer">
+
       </div>
+      <div id="joinLeftMessage"></div>
     </div>
 
 
