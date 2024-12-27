@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}django-channels-chat{% endblock %}
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/chat/room.css' %}" />
+{% endblock %}
+
+{% block content %}
+<div class="chat-container">
+  <h2 class="chat-title">django-channels-chat</h2>
+  <div class="chat-row">
+    <div class="chat-column chat-message-section">
+      <div class="room-info">
+        <label for="chatLog">Room: #{{ room.name }}</label>
+        <div class="chat_item_container" id="id_chat_item_container">
+          <!-- Messages will be displayed here with a scrollbar -->
+        </div>
+      </div>
+      <div class="message-input-group">
+        <input type="text" class="message-input" id="chatMessageInput" placeholder="Enter your chat message">
+        <button class="message-send-button" id="chatMessageSend" type="button">Send</button>
+      </div>
+    </div>
+    <div class="chat-column">
+      <label for="onlineUsers">Online users</label>
+      <div class="onlineUsers_item_container" id="id_onlineUsers_item_container">
+        {% for user in online_users %}
+        <div class="online-user-item">
+          <div class="user-status"></div> <!-- Active user indicator -->
+          <span>{{ user.username }}</span> <!-- Display user name -->
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+
+    {{ room.name|json_script:"roomName" }}
+    {{ request.user.username|json_script:"username" }}
+
+  </div>
+</div>
+<div class="leave-chat-container">
+  <a href="{% url 'leave-chat-room' room.name %}" class="leave-chat-link">Leave chat</a>
+</div>
+<script src="{% static 'js/chat/room.js' %}">
+</script>
+{% endblock %}

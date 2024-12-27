@@ -26,7 +26,7 @@
         {% else %}
         <div class="auth-links">
           <a href="{% url 'login' %}" class="auth-link">Log In</a>
-          <a href="{% url 'signup' %}" class="auth-link">Register</a>
+          <a href="/accounts/signup/" class="auth-link">Register</a>
         </div>
         {% endif %}
       </div>
@@ -40,8 +40,9 @@
         <li><a href="{% url 'bloggers_list' %}">Bloggers</a></li>
         {% if user.is_authenticated %}
         <li><a href="{% url 'profile' %}">My Profile</a></li>
+        <li><a href="{% url 'chat-index' %}">Chat</a></li>
         {% if user_can_add_blog %}
-        <li><a href="{% url 'register' %}">Register Blogger</a></li>
+        <li><a href="/accounts/register/">Register Blogger</a></li>
         {% endif %}
         {% if user_can_add_blog %}
         <li><a href="{% url  'new_blog' %}">New Blog Post</a></li>

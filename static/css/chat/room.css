@@ -1,0 +1,251 @@
+.chat-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: #f7f7f7;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.chat-title {
+  font-size: 28px;
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.chat-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.chat-column {
+  flex: 1;
+  min-width: 280px;
+  font-size: 20px;
+
+}
+
+.room-info {
+  margin-bottom: 15px;
+  font-size: 20px;
+}
+
+.chat_message{
+  width: 100%;
+  border: 1px solid;
+}
+
+.chat_item_container {
+  background-color: #fffdfd;
+  border: 2px solid;
+  padding: 10px;
+  border-radius: 10px;
+  height: 500px;
+  width: 100%;
+  max-height: 500px;
+  overflow-y: auto;
+  margin-top: 10px;
+}
+
+.message-content{
+  position: relative;
+  /* border-bottom: 1px solid; */
+  text-align: justify;
+  margin-bottom: 20px;
+  font-size: 17px;
+  border-bottom : 1px solid;
+
+}
+
+.message-timestamp {
+  font-size: 10px;
+  text-align: end;
+  margin: 2px 0px 5px 0px;
+}
+
+.message-username {
+  margin-top : 5px;
+  font-size: 14px;
+  text-align: end;
+  color: #0035af;
+}
+
+.message-content span:nth-child(1) {
+  margin-bottom: 5px;
+}
+
+.message-content{
+  padding: 10px;
+}
+
+.chat-log {
+  width: 100%;
+  height: 400px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  resize: none;
+}
+
+.chat-log:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+/* Message input section */
+.message-input-group {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.message-input {
+  flex: 1;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.message-input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.message-send-button {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.message-send-button:hover {
+  background-color: #218838;
+}
+
+.message-send-button:active {
+  background-color: #1e7e34;
+}
+
+/* ================================ */
+
+label[for="onlineUsers"] {
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+
+.onlineUsers_item_container {
+  max-height: 300px;
+  margin-top: 10px;
+  overflow-y: auto;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.online-user-item {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid #eee;
+  font-size: 1rem;
+  color: #333;
+  cursor: pointer;
+}
+
+.online-user-item:hover {
+  background-color: #f0f0f0;
+  border-color: #ccc;
+}
+
+.online-user-item .user-status {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: green;
+  margin-right: 10px;
+}
+
+#id_onlineUsers_item_container::-webkit-scrollbar {
+  width: 8px;
+}
+
+#id_onlineUsers_item_container::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 4px;
+}
+
+#id_onlineUsers_item_container::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+/* ======================================= */
+/* Users list section */
+.online-users {
+  width: 100%;
+  height: 200px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  overflow-y: auto;
+}
+
+.online-users:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.online-users option {
+  padding: 8px;
+  font-size: 14px;
+  color: #333;
+}
+
+.online-users option:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.leave-chat-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.leave-chat-link {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #f44336;
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 5px;
+  text-align: center;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.leave-chat-link:hover {
+  background-color: #d32f2f;
+  transform: scale(1.05);
+}
+
+.leave-chat-link:focus {
+  outline: 3px solid #ff4081;
+  outline-offset: 2px;
+}
