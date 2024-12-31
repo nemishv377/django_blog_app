@@ -14,6 +14,13 @@
         <label for="chatLog">Room: #{{ room.name }}</label>
         <div class="chat_item_container" id="id_chat_item_container">
           <!-- Messages will be displayed here with a scrollbar -->
+          {% for chat in chats %}
+          <div class="message-content">
+            <div class="message-text">{{chat.content}}</div>
+            <div class="message-timestamp">{{chat.timestamp|date:"H:i:s"}}</div>
+            <div class="message-username">{{chat.sender.username.capitalize }}</div>
+          </div>
+          {% endfor %}
         </div>
       </div>
       <div class="message-input-group">
@@ -23,10 +30,16 @@
     </div>
     <div class="chat-column">
       <label for="onlineUsers">Online users</label>
+      {% if online_user_count == 0 %}
+      <div>
+        No users are online.
+      </div>
+      {% else %}
       <div class="onlineUsers_item_container" id="onlineUsersItemContainer">
 
       </div>
       <div id="joinLeftMessage"></div>
+      {% endif %}
     </div>
 
 

@@ -13,7 +13,7 @@ function onlineUsersAdd(user) {
   let newdiv = document.createElement("div");
   newdiv.className = "online-user-item";
   newdiv.id = user;
-  console.log(newdiv)
+  console.log(newdiv);
   newdiv.innerHTML = `
             <div class="user-status"></div>
             <span>${user}</span>
@@ -74,7 +74,6 @@ function connect() {
 
   chatSocket.onmessage = function(e) {
     const data = JSON.parse(e.data);
-    console.log(data.type)
     
     switch (data.type) {
       
@@ -94,7 +93,7 @@ function connect() {
         
       case "user_join":
         let joinMessage = document.querySelector("#joinLeftMessage");       
-        joinMessage.innerHTML = data.user + " joined the room.\n"; 
+        joinMessage.innerHTML = data.users[data.users.length - 1] + " joined the room.\n"; 
         onlineUsersItemContainer.innerHTML = ''; 
         data.users.forEach(user => {
           onlineUsersAdd(user);
@@ -112,9 +111,7 @@ function connect() {
       default:
         console.error("Unknown message type!");
         break;
-      }
-        
-    // Scroll to the bottom of the chat container
+    }
   };
 
   chatSocket.onerror = function(err) {
@@ -131,7 +128,15 @@ chatMessageSend.onclick = function() {
   chatSocket.send(JSON.stringify({
     "message": chatMessageInput.value,
     username: JSON.parse(document.getElementById('username').textContent) ,
-
   }));
+
+  $.ajax({url: window.location.href + 'save-message/',
+    method: "POST",
+    data: { content: chatMessageInput.value },
+    error: function (error) {
+      console.error("Error fetching project details: ", error);
+    },
+  });
+  
   chatMessageInput.value = "";
-};  
+};

@@ -30,7 +30,7 @@ class ChatConsumer(WebsocketConsumer):
       self.room_group_name,
       self.channel_name,
     )
-    
+
     self.send(json.dumps({
       'type': 'user_list',
       'users': [Author.objects.get(id=id).username for id in self.room.online],
@@ -73,7 +73,8 @@ class ChatConsumer(WebsocketConsumer):
     current_time = datetime.now().strftime('%H:%M:%S')
 
     if not self.user.is_authenticated:  # new
-      return   
+      return
+
     # send chat message event to the room
     async_to_sync(self.channel_layer.group_send)(
       self.room_group_name,

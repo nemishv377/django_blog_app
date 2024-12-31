@@ -41,11 +41,11 @@ class Room(models.Model):
 
 
   def __str__(self):
-    return f'{self.name} ({self.get_online_count()})'
+    return f'{self.name}'
 
 
 class Message(models.Model):
-  user = models.ForeignKey(Author, on_delete=models.CASCADE)
+  sender = models.ForeignKey(Author, on_delete=models.CASCADE)
   room = models.ForeignKey(Room, on_delete=models.CASCADE)
   content = models.CharField(max_length=512)
   timestamp = models.DateTimeField(auto_now_add=True)
@@ -56,4 +56,4 @@ class Message(models.Model):
 
 
   def __str__(self):
-    return f'{self.user.username}: {self.content} [{self.timestamp}]'
+    return f'{self.sender.username}: {self.content} [{self.timestamp}]'
